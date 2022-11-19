@@ -8,3 +8,6 @@ def homePage(request):
 
 def customerPage(request):
     return render(request, 'customer.html')
+
+def dashboardPage(request):
+    return render(request, 'dashboard.html')
