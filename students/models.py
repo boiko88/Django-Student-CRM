@@ -3,12 +3,19 @@ from django.db import models
 class Customer(models.Model):
     name = models.CharField(max_length=50, null=True)
     phone = models.CharField(max_length=50, null=True)
-    email = models.CharField(max_length=50, null=True)
+    email = models.EmailField(max_length=50, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True)
     
     class Meta:
         ordering = ['-updated', '-date_created']
+    
+    def __str__(self):
+        return f'{self.name}'
+    
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, null=True)
     
     def __str__(self):
         return f'{self.name}'
@@ -25,6 +32,11 @@ class Product(models.Model):
     description = models.CharField(max_length=50, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True)
+    tags = models.ManyToManyField(Tag)
+    
+    def __str__(self):
+        return f'{self.name}'
+    
     
 class Order(models.Model):
     STATUS = (
@@ -32,6 +44,10 @@ class Order(models.Model):
             ('Out for delivery', 'Our for delivery'),
             ('Delivered', 'Delivered'),
             )
+    customer = models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL)
+    product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
+
+    
