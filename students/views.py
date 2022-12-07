@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import *
 
 # Create your views here.
 
@@ -16,4 +17,6 @@ def dashboardPage(request):
 
 
 def productsPage(request):
-    return render(request, 'products.html')
+    products = Product.objects.all()
+    return render(request, 'products.html', {'products': products})
+
