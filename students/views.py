@@ -15,8 +15,18 @@ def customerPage(request):
 def dashboardPage(request):
     orders = Order.objects.all()
     customers = Customer.objects.all()
-    context = {'orders': orders, 'customers': customers}
-    print(orders)
+    
+    total_customers = customers.count()
+    total_orders = orders.count()
+    delivered = orders.filter(status='Delivered').count()
+    pending = orders.filter(status='Pending').count()
+    
+    context = {'orders': orders, 'customers': customers,
+               'total_customers': total_customers,
+               'total_orders': total_orders,
+               'delivered': delivered,
+               'pending': pending,
+               }
     return render(request, 'dashboard.html', context)
     
 
