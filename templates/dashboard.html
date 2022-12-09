@@ -45,7 +45,14 @@
 					<th>Update</th>
 					<th>Remove</th>
 				</tr>
-		
+				{% for order in orders %}
+				<tr>
+					<td>{{order.customer}}</td>
+					<td>{{order.product}}</td>
+					<td>{{order.date_created}}</td>
+					<td>{{order.updated}}</td>
+				</tr>
+				{% endfor %}
 			</table>
 		</div>
 	</div>

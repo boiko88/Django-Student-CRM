@@ -49,5 +49,8 @@ class Order(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
+    
+    def __str__(self):
+        return f"{self.customer}'s Order"
 
     

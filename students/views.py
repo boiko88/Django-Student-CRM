@@ -5,12 +5,7 @@ from .models import *
 
 
 def homePage(request):
-    orders = Order.objects.all()
-    customers = Customer.objects.all()
-    
-    context = {'orders': orders, 'customers': customers}
-    
-    return render(request, 'dashboard.html', context)
+    return render(request, 'dashboard.html')
 
 
 def customerPage(request):
@@ -20,10 +15,10 @@ def customerPage(request):
 def dashboardPage(request):
     orders = Order.objects.all()
     customers = Customer.objects.all()
-    
     context = {'orders': orders, 'customers': customers}
-    
+    print(orders)
     return render(request, 'dashboard.html', context)
+    
 
 
 def productsPage(request):
