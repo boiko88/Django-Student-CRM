@@ -32,6 +32,14 @@ def productsPage(request):
 
 def customerPage(request, pk):
     customer = Customer.objects.get(id=pk)
-    context = {'customer': customer}
+    orders = customer.order_set.all()
+    total_orders = orders.count()
+    context = {'customer': customer, 'orders': orders, 'total_orders': total_orders}
+    
+    
+    
+
+    
     return render(request, 'customer.html', context)
+
 
