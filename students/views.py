@@ -1,15 +1,9 @@
 from django.shortcuts import render
 from .models import *
 
-# Create your views here.
-
 
 def homePage(request):
     return render(request, 'dashboard.html')
-
-
-def customerPage(request):
-    return render(request, 'customer.html')
 
 
 def dashboardPage(request):
@@ -34,4 +28,10 @@ def dashboardPage(request):
 def productsPage(request):
     products = Product.objects.all()
     return render(request, 'products.html', {'products': products})
+
+
+def customerPage(request, pk):
+    customer = Customer.objects.get(id=pk)
+    context = {'customer': customer}
+    return render(request, 'customer.html', context)
 
