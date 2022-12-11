@@ -48,10 +48,27 @@ def createOrder(request):
         form = OrderForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect('dashboard')
     
     context = {'form': form}
+    
     return render(request, 'order_form.html', context)
+
+
+def updateOrder(request, pk):
+    order = Order.objects.get(id=pk)
+    form = OrderForm(instance=order)
+    context = {'form': form}
+    
+    # Save Order Data
+    if request.method == 'POST':
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    
+    return render(request, 'order_form.html', context)
+    
 
 
 def createCustomer(request):
@@ -60,9 +77,10 @@ def createCustomer(request):
         form = CustomerForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect('dashboard')
     
     context = {'form': form}
+    
     return render(request, 'customer_form.html', context)
 
 
