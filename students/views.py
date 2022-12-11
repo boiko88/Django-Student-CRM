@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import *
+from .forms import OrderForm, CustomerForm
 
 
 def homePage(request):
@@ -21,12 +22,14 @@ def dashboardPage(request):
                'delivered': delivered,
                'pending': pending,
                }
+    
     return render(request, 'dashboard.html', context)
     
 
 
 def productsPage(request):
     products = Product.objects.all()
+    
     return render(request, 'products.html', {'products': products})
 
 
@@ -35,11 +38,21 @@ def customerPage(request, pk):
     orders = customer.order_set.all()
     total_orders = orders.count()
     context = {'customer': customer, 'orders': orders, 'total_orders': total_orders}
-    
-    
-    
 
-    
     return render(request, 'customer.html', context)
+
+
+def createOrder(request):
+    form = OrderForm()
+    
+    context = {'form': form}
+    return render(request, 'order_form.html', context)
+
+
+def createCustomer(request):
+    form = CustomerForm()
+    
+    context = {'form': form}
+    return render(request, 'customer_form.html', context)
 
 
