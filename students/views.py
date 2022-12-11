@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from .forms import OrderForm, CustomerForm
 
@@ -44,6 +44,11 @@ def customerPage(request, pk):
 
 def createOrder(request):
     form = OrderForm()
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
     
     context = {'form': form}
     return render(request, 'order_form.html', context)
@@ -51,6 +56,11 @@ def createOrder(request):
 
 def createCustomer(request):
     form = CustomerForm()
+    if request.method == 'POST':
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
     
     context = {'form': form}
     return render(request, 'customer_form.html', context)
