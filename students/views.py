@@ -3,9 +3,6 @@ from .models import *
 from .forms import OrderForm, CustomerForm
 
 
-def homePage(request):
-    return render(request, 'dashboard.html')
-
 
 def dashboardPage(request):
     orders = Order.objects.all()
