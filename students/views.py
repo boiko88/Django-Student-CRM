@@ -3,6 +3,9 @@ from .models import *
 from .forms import OrderForm, CustomerForm
 
 
+def homePage(request):
+    return render(request, 'dashboard.html')
+
 
 def dashboardPage(request):
     orders = Order.objects.all()
@@ -39,8 +42,9 @@ def customerPage(request, pk):
     return render(request, 'customer.html', context)
 
 
-def createOrder(request):
-    form = OrderForm()
+def createOrder(request, pk):
+    customer = Customer.objects.get(id=pk)
+    form = OrderForm(initial={'customer': customer})
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
