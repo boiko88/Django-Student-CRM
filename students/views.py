@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
+from django.forms import inlineformset_factory
 from .models import *
 from .forms import OrderForm, CustomerForm
+from .filters import OrderFilter
 
 
 def homePage(request):
@@ -51,21 +53,29 @@ def customerPage(request, pk):
     customer = Customer.objects.get(id=pk)
     orders = customer.order_set.all()
     total_orders = orders.count()
-    context = {'customer': customer, 'orders': orders, 'total_orders': total_orders}
+    
+    myFilter = OrderFilter(request.GET, queryset=orders)
+    orders = myFilter.qs
+    
+    context = {'customer': customer, 'orders': orders,
+               'total_orders': total_orders, 'myFilter': myFilter}
 
     return render(request, 'customer.html', context)
 
 
 def createOrder(request, pk):
+    OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'))
     customer = Customer.objects.get(id=pk)
-    form = OrderForm(initial={'customer': customer})
+    formset = OrderFormSet(instance=customer)
+    #form = OrderForm(initial={'customer': customer})
     if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            form.save()
+        #form = OrderForm(request.POST)
+        formset = OrderFormSet(request.POST, instance=customer)
+        if formset.is_valid():
+            formset.save()
             return redirect('dashboard')
     
-    context = {'form': form}
+    context = {'formset': formset}
     
     return render(request, 'order_form.html', context)
 
