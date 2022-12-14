@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
+from django.contrib.auth.forms import UserCreationForm
 from .models import *
 from .forms import OrderForm, CustomerForm
 from .filters import OrderFilter
 
 
 def registerPage(request):
-    context ={}
+    form = UserCreationForm()
+    context ={'form': form}
     return render(request, 'register.html', context)
 
 
