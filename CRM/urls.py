@@ -4,6 +4,8 @@ from students import views
 
 
 urlpatterns = [
+    path('register/', views.registerPage, name="register"),
+    path('login/', views.loginPage, name="login"),
     path('admin/', admin.site.urls),
     path('customer/<str:pk>/', views.customerPage, name="customer"),
     path('', views.homePage, name="home"),
