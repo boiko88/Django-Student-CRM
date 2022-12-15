@@ -4,8 +4,10 @@ from students import views
 
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('register/', views.registerPage, name="register"),
     path('login/', views.loginPage, name="login"),
+    path('logout/', views.logoutUser, name="logout"),
     path('admin/', admin.site.urls),
     path('customer/<str:pk>/', views.customerPage, name="customer"),
     path('', views.homePage, name="home"),
