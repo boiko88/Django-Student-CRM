@@ -10,10 +10,8 @@ from .forms import OrderForm, CustomerForm, CreateUserForm
 from .filters import OrderFilter
 
 
+@unauthenticated_user
 def registerPage(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
         form = CreateUserForm()
         if request.method == 'POST':
             form = CreateUserForm(request.POST)
