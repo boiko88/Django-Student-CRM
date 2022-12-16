@@ -12,17 +12,18 @@ from .filters import OrderFilter
 
 @unauthenticated_user
 def registerPage(request):
-        form = CreateUserForm()
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get('username')
-                messages.success(request, 'Account was created for ' + user)
-                return redirect('login')
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + user)
+            return redirect('login')
 
-        context = {'form': form}
-        return render(request, 'register.html', context)
+    context = {'form': form}
+    return render(request, 'register.html', context)
+
 
 @unauthenticated_user
 def loginPage(request):
@@ -87,6 +88,7 @@ def dashboardPage(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def productsPage(request):
     products = Product.objects.all()
 
@@ -94,6 +96,7 @@ def productsPage(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def customerPage(request, pk):
     customer = Customer.objects.get(id=pk)
     orders = customer.order_set.all()
@@ -109,6 +112,7 @@ def customerPage(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def createOrder(request, pk):
     OrderFormSet = inlineformset_factory(
         Customer, Order, fields=('product', 'status'), extra=10)
@@ -128,6 +132,7 @@ def createOrder(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def createNewOrder(request):
     form = OrderForm()
     if request.method == 'POST':
@@ -142,6 +147,7 @@ def createNewOrder(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def updateOrder(request, pk):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)
@@ -170,6 +176,7 @@ def deleteOrder(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def createCustomer(request):
     form = CustomerForm()
     if request.method == 'POST':
