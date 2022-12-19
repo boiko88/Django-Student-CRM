@@ -3,12 +3,12 @@ from django.db import models
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, null=True)
     phone = models.CharField(max_length=50, null=True)
     email = models.EmailField(max_length=50, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    profile_picture = models.ImageField(null=True, blank=True)
+    profile_picture = models.ImageField(default="profile1.png", null=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
     
     class Meta:

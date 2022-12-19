@@ -215,7 +215,15 @@ def createCustomer(request):
     return render(request, 'customer_form.html', context)
 
 
+@login_required(login_url='login')
 @allowed_users(allowed_roles=['customer'])
 def userSettings(request):
-    context ={}
+    customer = request.user.customer
+    form = CustomerForm(instance=customer)
+    context ={'form': form}
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES, instance=customer)
+        if form.is_valid():
+            form.save()
+    
     return render(request, 'user_settings.html', context)
