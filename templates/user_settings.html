@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .profile-pic {
+        max-width: 200px;
+        max_height: 200px;
+        margin: 0 auto;
+        border-radius: 50%;
+    }
+</style>
+
+<h4>You are on the User Settings Page<h4>
+
+<br>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card card-body">
+            <a class="btn btn warning" href={% url 'home' %}> &#8592; Back To Profile</a>
+            <hr>
+            <h3 style="text-align: center">Account Settings</h3>
+
+    
+
+{% endblock %}

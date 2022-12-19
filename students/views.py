@@ -213,3 +213,9 @@ def createCustomer(request):
     context = {'form': form}
 
     return render(request, 'customer_form.html', context)
+
+
+@allowed_users(allowed_roles=['customer'])
+def userSettings(request):
+    context ={}
+    return render(request, 'user_settings.html', context)
