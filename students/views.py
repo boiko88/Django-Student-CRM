@@ -14,18 +14,11 @@ from .filters import OrderFilter
 @unauthenticated_user
 def registerPage(request):
     form = CreateUserForm()
-    if request.method == 'POST':
+    if request.method =='POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-
-            group = Group.objects.get(name='customer')
-            user.groups.add(group)
-            Customer.objects.create(
-                user=user,
-            )
-
             messages.success(request, 'Account was created for ' + username)
             return redirect('login')
 
